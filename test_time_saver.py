@@ -12,7 +12,7 @@ def test_pdf_created():
 
 
 def test_zip_created():
-    ts.zip_from_images(
+    ts.zip_from_files(
         ts.get_images_from_path("test_dir"), "test_dir\\test_file"
     )
     assert os.path.isfile("test_dir\\test_file.zip")

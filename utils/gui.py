@@ -62,16 +62,33 @@ column_1 = sg.Column(
     expand_y=True,
 )
 
-button_row = sg.Column(
+button_row_1 = sg.Column(
     [
         [
+            sg.Text("", expand_x=True),
             sg.Button("Pack into PDF", key="pack_pdf"),
             sg.Button("Pack into ZIP", key="pack_zip"),
             sg.Button("Merge PDFs", key="merge_pdfs"),
-            sg.Button("Convert PNG to JPG", key="convert_2jpg"),
-            sg.Button("Convert JPG to PNG", key="convert_2png"),
+            sg.Button("Compress JPG and PNG", key="compress_images"),
+            sg.Text("", expand_x=True),
+        ],
+    ],
+    justification="center",
+    expand_x=True,
+)
+button_row_2 = sg.Column(
+    [
+        [
+            sg.Text("", expand_x=True),
+            sg.Button("Convert PNG to JPG", key="convert_png2jpg"),
+            sg.Button("Convert JPG to PNG", key="convert_jpg2png"),
+            sg.Button("Convert SVG to PDF", key="convert_svg2pdf"),
+            # !TODO convert PDF to SVG button
+            sg.Text("", expand_x=True),
         ]
-    ]
+    ],
+    justification="center",
+    expand_x=True,
 )
 chkbx_row = sg.Column(
     [
@@ -81,6 +98,7 @@ chkbx_row = sg.Column(
             ),
             sg.Checkbox("PNG", key="png_chkbx", enable_events=True),
             sg.Checkbox("PDF", key="pdf_chkbx", enable_events=True),
+            sg.Checkbox("SVG", key="svg_chkbx", enable_events=True),
         ]
     ],
     element_justification="center",
@@ -90,10 +108,19 @@ chkbx_row = sg.Column(
 
 layout = [
     [column_1],
-    [button_row],
+    [button_row_1],
+    [button_row_2],
     [
         sg.Text(
             "Which files should be affected by the operation?",
+            size=(40, 1),
+            justification="center",
+            expand_x=True,
+        )
+    ],
+    [
+        sg.Text(
+            "This only has an effect if only destination folder is chosen and selected files box is empty.",
             size=(40, 1),
             justification="center",
             expand_x=True,

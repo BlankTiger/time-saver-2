@@ -42,6 +42,8 @@ def convert_image(image_path, extension, folder_path="", new_extension=""):
 def compress_image(
     image_path, extension, quality_value, folder_path="", new_extension=""
 ):
+    if extension not in ["jpg", "jpeg", "png"]:
+        return
     image = None
     if new_extension == "":
         new_extension = extension

@@ -6,3 +6,6 @@ Include
 .pytest_cache
 __pycache__
 pyvenv.cfg
+build
+time_saver.spec
+dist.png

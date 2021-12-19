@@ -79,12 +79,12 @@ button_row_1 = sg.Column(
 button_row_2 = sg.Column(
     [
         [
-            sg.Text("", expand_x=True),
+            sg.Text("", size=(10, 0), expand_x=True),
             sg.Button("Convert PNG to JPG", key="convert_png2jpg"),
             sg.Button("Convert JPG to PNG", key="convert_jpg2png"),
             sg.Button("Convert SVG to PDF", key="convert_svg2pdf"),
             # !TODO convert PDF to SVG button
-            sg.Text("", expand_x=True),
+            sg.Text("", size=(10, 0), expand_x=True),
         ]
     ],
     justification="center",

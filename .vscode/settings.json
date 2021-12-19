@@ -1,0 +1,8 @@
+{
+    "python.pythonPath": "C:\\Users\\work\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+    "python.testing.pytestArgs": [
+        "."
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}

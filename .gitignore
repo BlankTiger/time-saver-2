@@ -1,0 +1,8 @@
+test_dir
+Scripts
+Lib
+Include
+.vcsode
+.pytest_cache
+__pycache__
+pyvenv.cfg

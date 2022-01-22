@@ -8,7 +8,7 @@ from PIL.ImageOps import exif_transpose
 from PyPDF4 import PdfFileMerger
 
 
-def convert_image_to_pdf(image_path, extension, quality_value=100) -> None:
+def convert_image_to_pdf(image_path, extension, quality_value=100):
     if extension == "svg":
         return convert_svg2pdf(image_path, "")
 

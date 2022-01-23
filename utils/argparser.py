@@ -2,6 +2,7 @@ import argparse
 
 
 def get_args():
+    """Create a parser for command line arguments."""
     parser = argparse.ArgumentParser(description="Convert images to other formats.")
     parser.add_argument(
         "destination",

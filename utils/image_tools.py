@@ -9,6 +9,16 @@ from PyPDF4 import PdfFileMerger
 
 
 def convert_image_to_pdf(image_path, extension, quality_value=100):
+    """Converts an image to a pdf.
+
+    Args:
+        image_path (str): The path to the image.
+        extension (str): The extension of the image.
+        quality_value (int): The compression quality.
+
+    Returns:
+        str: The path to the pdf.
+    """
     if extension == "svg":
         return convert_svg2pdf(image_path, "")
 
@@ -26,22 +36,53 @@ def convert_image_to_pdf(image_path, extension, quality_value=100):
 
 
 def convert_svg2pdf(file, folder_path):
-    path = join_path(
-        folder_path, basename(file).lower().replace(".svg", ".pdf")
-    )
+    """Converts an svg to a pdf.
+
+    Args:
+        file (str): The path to the svg.
+        folder_path (str): The path where the pdf will be saved.
+
+    Returns:
+        str: The path to the pdf.
+    """
+    path = join_path(folder_path, basename(file).lower().replace(".svg", ".pdf"))
     svg2pdf(url=file, write_to=path)
     return path
 
 
 def convert_image(image_path, extension, folder_path="", new_extension=""):
-    return compress_image(
-        image_path, extension, 100, folder_path, new_extension
-    )
+    """Converts between JPG and PNG.
+
+    Function uses compress_image function to convert the image while not
+    compressing because quality is set to 100.
+
+    Args:
+        image_path (str): The path to the image.
+        extension (str): The extension of the image.
+        folder_path (str): The path where the image will be saved.
+        new_extension (str): The new extension of the image.
+
+    Returns:
+        str: The path to the image.
+    """
+    return compress_image(image_path, extension, 100, folder_path, new_extension)
 
 
 def compress_image(
     image_path, extension, quality_value, folder_path="", new_extension=""
 ):
+    """Compresses an image.
+
+    Args:
+        image_path (str): The path to the image.
+        extension (str): The extension of the image.
+        quality_value (int): The compression quality.
+        folder_path (str): The path where the image will be saved.
+        new_extension (str): The new extension of the image.
+
+    Returns:
+        str: The path to the image.
+    """
     if extension not in ["jpg", "jpeg", "png"]:
         return
     image = None
@@ -71,6 +112,13 @@ def compress_image(
 
 
 def pdf_from_images(images_paths, pdf_name, quality_value=100):
+    """Creates a pdf from a list of images.
+
+    Args:
+        images_paths (list): The paths to the images.
+        pdf_name (str): The name of the pdf.
+        quality_value (int): The compression quality.
+    """
     from .file_tools import get_file_extension
 
     new_paths = []

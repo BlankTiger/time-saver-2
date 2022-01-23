@@ -21,6 +21,7 @@ from utils.image_tools import (
     pdf_from_images,
 )
 
+# Changes the GUI to be DPI aware so that the GUI is not pixelated
 if platform.system() == "Windows":
     import ctypes
 
@@ -31,6 +32,20 @@ if platform.system() == "Windows":
 
 
 def if_pack_pdf(file_name, files_path, folder_path, extensions, quality):
+    """Packs images into a pdf.
+
+    Function used for packing images into pdf if user decides to pack a pdf
+    either from gui or cli. Wrapper function for pdf_from_images from
+    image_tools.
+
+    Args:
+        file_name (str): Name of the output file.
+        files_path (list): List of files to be compressed and merged.
+        folder_path (str): Path to the folder where the files are located or to
+            the folder where the output file will be saved.
+        extensions (list): List of extensions that the user wants to pack into pdf.
+        quality (int): Quality of the compression of images.
+    """
     if files_path == [""] or files_path == "":
         file_paths = get_file_with_ext_from_path(folder_path, extensions)
         pdf_from_images(
@@ -44,6 +59,22 @@ def if_pack_pdf(file_name, files_path, folder_path, extensions, quality):
 
 
 def if_pack_zip(file_name, files_path, folder_path, extensions, quality):
+    """Packs images into a zip.
+
+    Function used for packaging selected files into a zip file. If user decides
+    to not choose files, function will zip all the files ending with the
+    provided extensions in the folder_path. Wrapper function for zip_from_files
+    from file_tools.
+
+    Args:
+        file_name (str): Name of the output file.
+        files_path (list): List of files that will be zipped.
+        folder_path (str): Path to the folder where the files are located or
+            and where the output file will be saved.
+        extensions (list): List of extensions that the user wants to pack into
+            zip if files_path is empty.
+        quality (int): Quality of the compression of images.
+    """
     if files_path == [""] or files_path == "":
         file_paths = get_file_with_ext_from_path(folder_path, extensions)
         zip_from_files(file_paths, join(folder_path, file_name), int(quality))
@@ -53,6 +84,18 @@ def if_pack_zip(file_name, files_path, folder_path, extensions, quality):
 
 
 def if_merge_pdfs(file_name, files_path, folder_path):
+    """Merges pdfs.
+
+    Function used for merging pdfs. If user decides to not choose files,
+    function will merge all the pdfs in the folder_path. Wrapper function for
+    merge_pdfs from file_tools.
+
+    Args:
+        file_name (str): Name of the output file.
+        files_path (list): List of files that will be merged.
+        folder_path (str): Path to the folder where the files are located or and
+            where the output file will be saved.
+    """
     if files_path == [""] or files_path == "":
         file_paths = get_file_with_ext_from_path(folder_path, "pdf")
         merge_pdfs(file_paths, join(folder_path, file_name))
@@ -62,6 +105,17 @@ def if_merge_pdfs(file_name, files_path, folder_path):
 
 
 def if_convert_png2jpg(files_path, folder_path):
+    """Converts png to jpg.
+
+    Function used for converting png to jpg. If user decides to not choose files,
+    function will convert all the pngs in the folder_path. Wrapper function for
+    convert_image from image_tools.
+
+    Args:
+        files_path (list): List of files that will be converted.
+        folder_path (str): Path to the folder where the files are located or and
+            where the output file will be saved.
+    """
     if files_path == [""] or files_path == "":
         file_paths = get_file_with_ext_from_path(folder_path, "png")
         for file in file_paths:
@@ -73,6 +127,17 @@ def if_convert_png2jpg(files_path, folder_path):
 
 
 def if_convert_jpg2png(files_path, folder_path):
+    """Converts jpg to png.
+
+    Function used for converting jpg to png. If user decides to not choose files,
+    function will convert all the jpgs in the folder_path. Wrapper function for
+    convert_image from image_tools.
+
+    Args:
+        files_path(list): List of files that will be converted.
+        folder_path(str): Path to the folder where the files are located or and
+            where the output file will be saved.
+    """
     if files_path == [""] or files_path == "":
         file_paths = get_file_with_ext_from_path(folder_path, "jpg")
         for file in file_paths:
@@ -84,6 +149,17 @@ def if_convert_jpg2png(files_path, folder_path):
 
 
 def if_convert_svg2pdf(file_paths, folder_path):
+    """Converts svg to pdf.
+
+    Function used for converting svg to pdf. If user decides to not choose files,
+    function will convert all the svgs in the folder_path. Wrapper function for
+    convert_svg2pdf from image_tools.
+
+    Args:
+        file_paths(list): List of files that will be converted.
+        folder_path(str): Path to the folder where the files are located or and
+            where the output file will be saved.
+    """
     if file_paths == [""] or file_paths == "":
         file_paths = get_file_with_ext_from_path(folder_path, extensions=("svg"))
         for file in file_paths:
@@ -95,6 +171,19 @@ def if_convert_svg2pdf(file_paths, folder_path):
 
 
 def if_compress_images(files_path, folder_path, extensions, quality):
+    """Compresses images.
+
+    Function used for compressing images. If user decides to not choose files,
+    function will compress all the images in the folder_path. Wrapper function
+    for compress_images from image_tools.
+
+    Args:
+        files_path(list): List of files that will be compressed.
+        folder_path(str): Path to the folder where the files are located or and
+            where the output file will be saved.
+        extensions(list): List of extensions that the user wants to compress.
+        quality(int): Quality of the compression of images.
+    """
     if files_path == [""] or files_path == "":
         file_paths = get_file_with_ext_from_path(folder_path, extensions)
         for file in file_paths:
@@ -109,6 +198,9 @@ def if_compress_images(files_path, folder_path, extensions, quality):
 
 
 if __name__ == "__main__":
+    # Checks if the user gave any arguments to the script
+    # if any arguments are given, the script will run as in CLI mode
+    # if no arguments are given, the script will run as in GUI mode
     if len(argv) > 1:
         args = get_args()
         print(args)

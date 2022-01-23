@@ -6,19 +6,40 @@ from PyPDF4 import PdfFileMerger
 
 
 def get_file_extension(file_path):
+    """Returns the extension from a file path.
+
+    Args:
+        file_path (str): The file path.
+    """
     return splitext(file_path)[1].lower().strip(".")
 
 
 def get_file_with_ext_from_path(path, extensions=("jpg", "jpeg", "png")):
-    images_paths = []
+    """Returns all files with the given extension from the given path.
+
+    Args:
+        path (str): The path to the folder.
+        extensions (list): The extensions to look for.
+
+    Returns:
+        list: A list of files with the given extension from the given path.
+    """
+
+    file_paths = []
     for file in listdir(path):
         f_ext = get_file_extension(file)
         if f_ext in extensions and not f_ext == "":
-            images_paths.append(join(path, file))
-    return images_paths
+            file_paths.append(join(path, file))
+    return file_paths
 
 
 def merge_pdfs(pdf_paths, pdf_name):
+    """Merges multiple pdfs into one.
+
+    Args:
+        pdf_paths (list): A list of pdf paths.
+        pdf_name (str): The name of the merged pdf.
+    """
     pdf_merger = PdfFileMerger()
     for file in pdf_paths:
         pdf_merger.append(file)
@@ -27,11 +48,20 @@ def merge_pdfs(pdf_paths, pdf_name):
         pdf_merger.close()
 
 
-def zip_from_files(images_paths, zip_name, quality_value=100):
+def zip_from_files(file_paths, zip_name, quality_value=100):
+    """Zips the given files.
+
+    If the file is an image it will be compressed with the given quality value.
+
+    Args:
+        file_paths (list): A list of file paths.
+        zip_name (str): The name of the zip file.
+        quality_value (int): The compression quality.
+    """
     from .image_tools import compress_image
 
     new_paths = []
-    for image in images_paths:
+    for image in file_paths:
         f_ext = get_file_extension(image)
         if f_ext == "pdf":
             new_paths.append(image + "already")
@@ -56,4 +86,12 @@ def zip_from_files(images_paths, zip_name, quality_value=100):
 
 
 def file_paths_from_gui(chosen_files):
+    """Returns a list of file paths from the given string of chosen files.
+
+    File paths from gui are separated by ";". This function will split the string
+    and return a list of file paths.
+
+    Args:
+        chosen_files (str): A string containing chosen files.
+    """
     return chosen_files.split(";")

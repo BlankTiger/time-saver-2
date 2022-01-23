@@ -4,5 +4,15 @@
         "."
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "python.formatting.blackArgs": [
+        "--line-length",
+        "88"
+    ],
+    "python.formatting.provider": "black",
+    "python.linting.flake8Args": [
+        "--max-line-length",
+        "89"
+    ],
+    "python.linting.flake8Enabled": true
 }

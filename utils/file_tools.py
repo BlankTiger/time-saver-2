@@ -50,7 +50,14 @@ def zip_from_files(images_paths, zip_name, quality_value=100):
         zip_file.write(file, basename(file))
     for file in new_paths:
         if not file.endswith(("already", "svg")):
-            if file.endswith("_compressed.pdf"):
+            if file.endswith(
+                (
+                    "_compressed.pdf",
+                    "_compressed.jpg",
+                    "_compressed.jpeg",
+                    "_compressed.png",
+                )
+            ):
                 remove(file)
     zip_file.close()
 

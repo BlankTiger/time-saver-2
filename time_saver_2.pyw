@@ -2,6 +2,7 @@ import platform
 from os import getcwd
 from os.path import join
 from sys import argv
+from sys import exit
 
 import PySimpleGUI as sg
 
@@ -224,7 +225,6 @@ if __name__ == "__main__":
             if_compress_images(
                 args.files, args.destination, args.extensions, args.quality
             )
-
         exit()
     window = sg.Window("Time Saver 2.0", layout, finalize=True)
     window["folder_path"].update(getcwd())

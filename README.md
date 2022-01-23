@@ -1,7 +1,7 @@
 # Time Saver 2.0
 Successor to <a href="https://github.com/BlankTiger/time-saver">Time Saver</a> which I have written quite a while ago. It lacked some functionality and the code I wrote wasn't very clean. I decided to rewrite it.
-![presentation](https://user-images.githubusercontent.com/16402420/150687014-94bc8bf1-6f14-4531-8d96-c18322b2ef3e.png)
 
+<p align="center"> <img style="width: 60%;" src="https://user-images.githubusercontent.com/16402420/150687170-98fc3bf8-b950-4c10-b489-1f74828a38ed.png"/> </p>
 
 # Inspiration
 App inspired by the need to save time during tests, and exams. Allows to not waste time on compression and packaging of photos, when there is a need for fast delivery of them. Written completely in python. Currently works with jpegs, pngs, svgs, pdfs. Works only for windows (haven't tested linux support, but I doubt it works because of the way in which path handling has been done).

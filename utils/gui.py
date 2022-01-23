@@ -5,9 +5,7 @@ sg.theme("BlueMono")
 column_1 = sg.Column(
     [
         [
-            sg.Text(
-                "File name:", size=(20, 1), pad=(0, 0), justification="right"
-            ),
+            sg.Text("File name:", size=(20, 1), pad=(0, 0), justification="right"),
             sg.InputText(
                 default_text="file",
                 key="file_name",
@@ -18,10 +16,7 @@ column_1 = sg.Column(
         ],
         [
             sg.Text(
-                "Quality:",
-                size=(20, 1),
-                justification="right",
-                pad=((0, 0), (10, 0)),
+                "Quality:", size=(20, 1), justification="right", pad=((0, 0), (10, 0))
             ),
             sg.Slider(
                 range=(1, 100),
@@ -44,9 +39,7 @@ column_1 = sg.Column(
             ),
         ],
         [
-            sg.FolderBrowse(
-                "Destination folder", target="folder_path", size=(20, 1)
-            ),
+            sg.FolderBrowse("Destination folder", target="folder_path", size=(20, 1)),
             sg.InputText(
                 key="folder_path",
                 expand_x=True,
@@ -93,9 +86,7 @@ button_row_2 = sg.Column(
 chkbx_row = sg.Column(
     [
         [
-            sg.Checkbox(
-                "JPG/JPEG", key="jpg_chkbx", enable_events=True, default=True
-            ),
+            sg.Checkbox("JPG/JPEG", key="jpg_chkbx", enable_events=True, default=True),
             sg.Checkbox("PNG", key="png_chkbx", enable_events=True),
             sg.Checkbox("PDF", key="pdf_chkbx", enable_events=True),
             sg.Checkbox("SVG", key="svg_chkbx", enable_events=True),

@@ -22,9 +22,13 @@ from utils.image_tools import (
     pdf_from_images,
 )
 
-# Changes the GUI to be DPI aware so that the GUI is not pixelated
+# Changes the GUI to be DPI aware so that the GUI is not pix elated
 if platform.system() == "Windows":
     import ctypes
+
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(
+        "CompanyName.ProductName.SubProduct.VersionInformation"
+    )
 
     if platform.release() == "7":
         ctypes.windll.user32.SetProcessDPIAware()
@@ -204,7 +208,6 @@ if __name__ == "__main__":
     # if no arguments are given, the script will run as in GUI mode
     if len(argv) > 1:
         args = get_args()
-        print(args)
         if args.pack_to_pdf:
             if_pack_pdf(
                 args.output, args.files, args.destination, args.extensions, args.quality
@@ -226,7 +229,12 @@ if __name__ == "__main__":
                 args.files, args.destination, args.extensions, args.quality
             )
         exit()
-    window = sg.Window("Time Saver 2.0", layout, finalize=True)
+    window = sg.Window(
+        "Time Saver 2.0",
+        layout,
+        icon=r".\icon.ico",
+        finalize=True,
+    )
     window["folder_path"].update(getcwd())
 
     current_extensions = ["jpg", "jpeg"]

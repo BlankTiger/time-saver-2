@@ -1,8 +1,10 @@
 from os import listdir, remove
+from shutil import rmtree
 from os.path import basename, join, splitext
 from zipfile import ZipFile
 
 from PyPDF4 import PdfFileMerger
+from pikepdf import open as open_pdf
 
 
 def get_file_extension(file_path):
@@ -102,3 +104,49 @@ def file_paths_from_gui(chosen_files):
         chosen_files (str): A string containing chosen files.
     """
     return chosen_files.split(";")
+
+
+def decrypt_pdf(file_paths, extension, passwd, replace):
+
+    try:
+        for file in file_paths:
+            pdf = open_pdf(file, password=passwd, allow_overwriting_input=replace)
+            pdf.save(file.replace(".pdf", extension))
+    except Exception as e:
+        raise Exception(e)
+
+
+def decrypt_zip(file_paths, extension, passwd, replace):
+    try:
+        for file in file_paths:
+            try:
+                with ZipFile(file, "r") as zip_file:
+                    zip_file.extractall(
+                        file.replace(".zip", "zipperino_extracterino"),
+                        pwd=bytes(passwd, "utf-8"),
+                    )
+            except Exception as e:
+                rmtree(file.replace(".zip", "zipperino_extracterino"))
+                raise Exception(e)
+
+            if replace:
+                mode = "w"
+                for f in listdir(file.replace(".zip", "zipperino_extracterino")):
+                    with ZipFile(file.replace(".zip", extension), mode) as zip_file:
+                        zip_file.write(
+                            join(file.replace(".zip", "zipperino_extracterino"), f),
+                            basename(f).replace(".zip", extension),
+                        )
+                    mode = "a"
+
+            else:
+                for f in listdir(file.replace(".zip", "zipperino_extracterino")):
+                    with ZipFile(file.replace(".zip", extension), "a") as zip_file:
+                        zip_file.write(
+                            join(file.replace(".zip", "zipperino_extracterino"), f),
+                            basename(f).replace(".zip", extension),
+                        )
+
+            rmtree(file.replace(".zip", "zipperino_extracterino"))
+    except Exception as e:
+        raise Exception(e)

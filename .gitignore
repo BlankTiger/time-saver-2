@@ -10,3 +10,6 @@ build
 time_saver.spec
 dist.png
 .vscode/
+/minimal_one_file_export.json
+/minimal_one_folder_export.json
+/output/

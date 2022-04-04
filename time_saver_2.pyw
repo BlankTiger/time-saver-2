@@ -1,8 +1,10 @@
 import platform
-from os import getcwd
+from os import getcwd, environ
+from pathlib import Path
 from os.path import join
 from sys import argv
 from sys import exit
+import importlib
 
 import PySimpleGUI as sg
 
@@ -13,14 +15,17 @@ from utils.file_tools import (
     get_file_with_ext_from_path,
     merge_pdfs,
     zip_from_files,
+    decrypt_pdf,
+    decrypt_zip,
 )
-from utils.gui import layout
+from utils.gui import layout, layout_passwd
 from utils.image_tools import (
     compress_image,
     convert_image,
     convert_svg2pdf,
     pdf_from_images,
 )
+from utils.icon import icon
 
 # Changes the GUI to be DPI aware so that the GUI is not pix elated
 if platform.system() == "Windows":
@@ -34,6 +39,11 @@ if platform.system() == "Windows":
         ctypes.windll.user32.SetProcessDPIAware()
     elif float(platform.release()) >= 8:
         ctypes.windll.shcore.SetProcessDpiAwareness(1)
+
+if "_PYIBoot_SPLASH" in environ and importlib.util.find_spec("pyi_splash"):
+    import pyi_splash
+
+    pyi_splash.close()
 
 
 def if_pack_pdf(file_name, files_path, folder_path, extensions, quality):
@@ -202,6 +212,85 @@ def if_compress_images(files_path, folder_path, extensions, quality):
         compress_image(file, f_ext, int(quality), folder_path, f_ext)
 
 
+def remove_passwd_pdf(file_paths, extension, passwd, replace):
+    """Removes password from pdf."""
+    if file_paths == [""] or file_paths == "":
+        sg.popup_error("No files selected", icon=icon)
+        return
+
+    for file in file_paths:
+        if get_file_extension(file) != "pdf":
+            sg.popup_error("Wrong file extension", icon=icon)
+            return
+    if replace:
+        extension = ".pdf"
+    else:
+        extension += ".pdf"
+
+    try:
+        decrypt_pdf(file_paths, extension, passwd, replace)
+    except Exception as e:
+        sg.popup_error(str(e), icon=icon)
+
+
+def remove_passwd_zip(file_paths, extension, passwd, replace):
+    """Removes password from zip."""
+    if file_paths == [""] or file_paths == "":
+        sg.popup_error("No files selected", icon=icon)
+        return
+
+    for file in file_paths:
+        if get_file_extension(file) != "zip":
+            sg.popup_error("Wrong file extension", icon=icon)
+            return
+
+    if replace:
+        extension = ".zip"
+    else:
+        extension += ".zip"
+
+    try:
+        decrypt_zip(file_paths, extension, passwd, replace)
+    except Exception as e:
+        sg.popup_error(str(e), icon=icon)
+
+
+def if_remove_passwd(pdf, file_paths):
+    pass_window = sg.Window(
+        "Remove password from pdf files" if pdf else "Remove password from zip files",
+        layout=layout_passwd(),
+        icon=icon,
+        finalize=True,
+    )
+    while True:
+        event, values = pass_window.read()
+        if event in (None, "Cancel"):
+            break
+        if event == "replace_file":
+            pass_window["extension"].update(disabled=values["replace_file"])
+        if event == "remove_passwd":
+            if values["password"] == "":
+                sg.popup_error("Password cannot be empty", icon=icon)
+                continue
+            if not values["replace_file"] and values["extension"] == "":
+                sg.popup_error("Extension cannot be empty", icon=icon)
+                continue
+            if pdf:
+                remove_passwd_pdf(
+                    file_paths,
+                    values["extension"],
+                    values["password"],
+                    values["replace_file"],
+                )
+            else:
+                remove_passwd_zip(
+                    file_paths,
+                    values["extension"],
+                    values["password"],
+                    values["replace_file"],
+                )
+
+
 if __name__ == "__main__":
     # Checks if the user gave any arguments to the script
     # if any arguments are given, the script will run as in CLI mode
@@ -232,10 +321,10 @@ if __name__ == "__main__":
     window = sg.Window(
         "Time Saver 2.0",
         layout,
-        icon=r".\icon.ico",
+        icon=icon,
         finalize=True,
     )
-    window["folder_path"].update(getcwd())
+    window["folder_path"].update(Path.home())
 
     current_extensions = ["jpg", "jpeg"]
     jpg_set = frozenset(("jpg", "jpeg"))
@@ -293,6 +382,18 @@ if __name__ == "__main__":
                 values["folder_path"],
                 current_extensions,
                 values["quality"],
+            )
+
+        if event == "remove_pdf_passwd":
+            if_remove_passwd(
+                pdf=True,
+                file_paths=file_paths_from_gui(values["file_path"]),
+            )
+
+        if event == "remove_zip_passwd":
+            if_remove_passwd(
+                pdf=False,
+                file_paths=file_paths_from_gui(values["file_path"]),
             )
 
         if event == "jpg_chkbx":

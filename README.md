@@ -1,3 +1,5 @@
+<p align="center"> <img style="width:10%;" src="https://user-images.githubusercontent.com/16402420/161548205-861aabca-0691-4178-b833-7eed5808ef77.png"/> </p>
+
 # Time Saver 2.0
 Successor to <a href="https://github.com/BlankTiger/time-saver">Time Saver</a> which I have written quite a while ago. It lacked some functionality and the code I wrote wasn't very clean. I decided to rewrite it.
 
@@ -53,4 +55,5 @@ options:
 - cairosvg,
 - PySimpleGUI.
 
-<div>Icons made by <a href="https://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+# Icon attribution
+<div><a href="https://www.flaticon.com/free-icons/time-management" title="time-management icons">Time-management icons created by Freepik - Flaticon</a></div>
